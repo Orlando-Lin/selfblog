@@ -1,1 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-03-23T14:39:14+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">我的高端博客</title><subtitle>这是一个使用Jekyll搭建的高端个人博客，没有使用模板，完全自定义设计。</subtitle><entry><title type="html">Welcome To My Blog</title><link href="http://localhost:4000/2023/06/15/welcome-to-my-blog.html" rel="alternate" type="text/html" title="Welcome To My Blog" /><published>2023-06-15T00:00:00+08:00</published><updated>2023-06-15T00:00:00+08:00</updated><id>http://localhost:4000/2023/06/15/welcome-to-my-blog</id><content type="html" xml:base="http://localhost:4000/2023/06/15/welcome-to-my-blog.html"><![CDATA[]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-03-24T20:19:50+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">张三的个人博客</title><subtitle>一个分享技术、设计和生活的个人博客</subtitle><author><name>张三</name><email>your.email@example.com</email></author><entry><title type="html">Welcome To My Blog</title><link href="http://localhost:4000/blog/2023/06/15/welcome-to-my-blog/" rel="alternate" type="text/html" title="Welcome To My Blog" /><published>2023-06-15T00:00:00+08:00</published><updated>2023-06-15T00:00:00+08:00</updated><id>http://localhost:4000/blog/2023/06/15/welcome-to-my-blog</id><content type="html" xml:base="http://localhost:4000/blog/2023/06/15/welcome-to-my-blog/"><![CDATA[]]></content><author><name>张三</name><email>your.email@example.com</email></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Markdown写作指南</title><link href="http://localhost:4000/blog/2023/02/20/markdown-guide/" rel="alternate" type="text/html" title="Markdown写作指南" /><published>2023-02-20T15:30:00+08:00</published><updated>2023-02-20T15:30:00+08:00</updated><id>http://localhost:4000/blog/2023/02/20/markdown-guide</id><content type="html" xml:base="http://localhost:4000/blog/2023/02/20/markdown-guide/"><![CDATA[<h1 id="markdown基础指南">Markdown基础指南</h1>
+
+<p>Markdown是一种轻量级标记语言，创建于2004年，现在被广泛用于写作。它允许人们使用易读易写的纯文本格式编写文档，然后转换成有效的HTML文档。</p>
+
+<h2 id="为什么使用markdown">为什么使用Markdown？</h2>
+
+<ul>
+  <li><strong>易于学习</strong> - 语法简单直观</li>
+  <li><strong>专注内容</strong> - 不必担心格式，专注于写作</li>
+  <li><strong>兼容性好</strong> - 几乎所有平台都支持</li>
+  <li><strong>可转换性</strong> - 可以轻松转换为HTML、PDF等格式</li>
+</ul>
+
+<h2 id="基本语法">基本语法</h2>
+
+<h3 id="标题">标题</h3>]]></content><author><name>张三</name><email>your.email@example.com</email></author><category term="写作" /><category term="工具" /><category term="Markdown" /><category term="写作" /><category term="指南" /><summary type="html"><![CDATA[Markdown基础指南]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/posts/markdown-guide.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/posts/markdown-guide.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">你好，世界！</title><link href="http://localhost:4000/blog/2023/01/15/hello-world/" rel="alternate" type="text/html" title="你好，世界！" /><published>2023-01-15T12:00:00+08:00</published><updated>2023-01-15T12:00:00+08:00</updated><id>http://localhost:4000/blog/2023/01/15/hello-world</id><content type="html" xml:base="http://localhost:4000/blog/2023/01/15/hello-world/"><![CDATA[<h2 id="欢迎来到我的博客">欢迎来到我的博客</h2>
+
+<p>这是我的第一篇博客文章。在这里，我将分享我在编程和设计领域的经验和见解。</p>
+
+<h3 id="jekyll是什么">Jekyll是什么？</h3>
+
+<p>Jekyll是一个简单的静态网站生成器，适合博客、个人和组织网站。它将纯文本转换为静态网站和博客。</p>
+
+<h3 id="为什么选择jekyll">为什么选择Jekyll？</h3>
+
+<p>以下是选择Jekyll的几个原因：</p>
+
+<ol>
+  <li><strong>简单易用</strong> - 不需要数据库和复杂的CMS系统</li>
+  <li><strong>速度快</strong> - 静态页面加载迅速</li>
+  <li><strong>安全性高</strong> - 没有动态内容，减少了安全隐患</li>
+  <li><strong>版本控制</strong> - 可以与Git完美结合</li>
+  <li><strong>自由度高</strong> - 完全控制您的网站外观和功能</li>
+</ol>
+
+<h2 id="代码示例">代码示例</h2>
+
+<p>下面是一个简单的JavaScript函数：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">greet</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s2">`你好，</span><span class="p">${</span><span class="nx">name</span><span class="p">}</span><span class="s2">！`</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nf">greet</span><span class="p">(</span><span class="dl">'</span><span class="s1">访客</span><span class="dl">'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h2 id="下一步计划">下一步计划</h2>
+
+<p>在接下来的博客文章中，我将分享更多关于：</p>
+
+<ul>
+  <li>Web开发技巧</li>
+  <li>UI/UX设计经验</li>
+  <li>开源项目贡献</li>
+  <li>学习资源推荐</li>
+</ul>
+
+<p>敬请期待！</p>]]></content><author><name>张三</name><email>your.email@example.com</email></author><category term="博客" /><category term="技术" /><category term="Jekyll" /><category term="博客" /><category term="入门" /><summary type="html"><![CDATA[欢迎来到我的博客]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/posts/hello-world.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/posts/hello-world.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

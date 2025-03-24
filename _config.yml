@@ -14,13 +14,13 @@ author:
 
 # 社交媒体
 twitter_username: yourusername
-github_username: yourusername
+github_username: your-github-username
 linkedin_username: yourusername
 
 # 博客设置
 permalink: /blog/:year/:month/:day/:title/
-paginate: 10
-paginate_path: "/blog/page:num/"
+paginate: 6
+paginate_path: "/page:num/"
 
 # 评论系统设置
 comments:

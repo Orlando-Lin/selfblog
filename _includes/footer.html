@@ -1,1 +1,20 @@
- 
+<footer class="site-footer">
+  <div class="wrapper">
+    <div class="footer-content">
+      <div class="footer-col">
+        <p>{{ site.description }}</p>
+      </div>
+      <div class="footer-col">
+        <h3>联系方式</h3>
+        {% if site.github_username %}
+        <a href="https://github.com/{{ site.github_username }}">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        {% endif %}
+      </div>
+      <div class="footer-col">
+        <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}</p>
+      </div>
+    </div>
+  </div>
+</footer> 
