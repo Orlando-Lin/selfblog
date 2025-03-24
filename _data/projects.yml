@@ -1,0 +1,31 @@
+- title: "个人博客网站"
+  description: "使用Jekyll构建的个人静态博客网站，具有响应式设计和多种功能。"
+  image: "/assets/images/projects/blog.jpg"
+  url: "https://github.com/yourusername/blog"
+  tags:
+    - Jekyll
+    - HTML
+    - CSS
+    - JavaScript
+  date: "2023-06-15"
+
+- title: "在线笔记应用"
+  description: "一个基于Vue.js开发的在线笔记应用，支持Markdown编辑和云端同步。"
+  image: "/assets/images/projects/notes-app.jpg"
+  url: "https://github.com/yourusername/notes-app"
+  tags:
+    - Vue.js
+    - JavaScript
+    - CSS
+    - Firebase
+  date: "2023-03-10"
+
+- title: "天气预报小程序"
+  description: "微信小程序平台上的天气预报应用，提供实时天气信息和未来预报。"
+  image: "/assets/images/projects/weather-app.jpg"
+  url: "https://github.com/yourusername/weather-miniapp"
+  tags:
+    - 微信小程序
+    - JavaScript
+    - API
+  date: "2022-11-20" 
