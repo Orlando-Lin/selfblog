@@ -1,20 +1,33 @@
+<!-- 页脚 -->
 <footer class="site-footer">
-  <div class="wrapper">
-    <div class="footer-content">
-      <div class="footer-col">
-        <p>{{ site.description }}</p>
-      </div>
-      <div class="footer-col">
-        <h3>联系方式</h3>
-        {% if site.github_username %}
-        <a href="https://github.com/{{ site.github_username }}">
-          <i class="fab fa-github"></i> GitHub
-        </a>
-        {% endif %}
-      </div>
-      <div class="footer-col">
-        <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}</p>
-      </div>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于</h3>
+                <p>曹淋锦荣的个人博客，分享技术见解和项目经验。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="{{ '/' | relative_url }}">首页</a></li>
+                    <li><a href="{{ '/hzbar' | relative_url }}">盘杠</a></li>
+                    <li><a href="{{ '/blog' | relative_url }}">博客</a></li>
+                    <li><a href="{{ '/projects' | relative_url }}">项目</a></li>
+                    <li><a href="{{ '/about' | relative_url }}">关于</a></li>
+                    <li><a href="{{ '/contact' | relative_url }}">联系</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>邮箱：{{ site.email }}</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. 保留所有权利。</p>
+        </div>
     </div>
-  </div>
 </footer> 

@@ -3,5 +3,59 @@ layout: default
 title: 首页
 ---
 
-<h1>欢迎来到我的博客</h1>
-<p>这是我的个人博客网站，使用Jekyll构建。</p>
+<div class="hero-section">
+    <div class="hero-slider">
+        <div class="slide active">
+            <img src="{{ '/assets/images/hero1.jpg' | relative_url }}" alt="主图片1">
+            <div class="slide-content">
+                <h1>Welcome to my blog</h1>
+                <p>在这里分享技术与技艺</p>
+                <p>Share technology and skills here</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="experience-section">
+    <div class="container">
+        <h2>博客特色</h2>
+        <p class="section-intro">分享技术文章、项目经验和个人见解</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <img src="{{ '/assets/images/tech.jpg' | relative_url }}" alt="技术">
+                <h3>技术文章</h3>
+                <a href="/blog/tech" class="feature-link">浏览文章</a>
+            </div>
+            <div class="feature-card">
+                <img src="{{ '/assets/images/projects.jpg' | relative_url }}" alt="项目">
+                <h3>项目展示</h3>
+                <a href="/projects" class="feature-link">查看项目</a>
+            </div>
+            <div class="feature-card">
+                <img src="{{ '/assets/images/thoughts.jpg' | relative_url }}" alt="思考">
+                <h3>个人思考</h3>
+                <a href="/blog/thoughts" class="feature-link">阅读更多</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">技术文章</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">开源项目</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1000+</span>
+                <span class="stat-label">Github Stars</span>
+            </div>
+        </div>
+    </div>
+</section> 

@@ -1,141 +1,133 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>张三的个人博客</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 我的博客</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/fallback.css">
 </head>
 <body>
-  <!-- 顶部导航栏 -->
-  <header class="main-header">
+    <div class="skip-links">
+        <a href="#main-content">跳转到主要内容</a>
+    </div>
+
+    <!-- 头部 -->
+<header class="site-header">
     <div class="container header-container">
-      <a href="/" class="logo">张三的个人博客</a>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="/">首页</a></li>
-          <li><a href="/blog/">博客</a></li>
-          <li><a href="/projects/">项目</a></li>
-          <li><a href="/about/">关于</a></li>
-        </ul>
-      </nav>
+        <div class="logo">
+            <a href="/">我的博客</a>
+        </div>
+        
+        <nav class="main-nav">
+            <button class="menu-toggle" aria-label="菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="/">首页</a></li>
+                <li><a href="/blog">博客</a></li>
+                <li><a href="/projects">项目</a></li>
+                <li><a href="/about">关于</a></li>
+                <li><a href="/contact">联系</a></li>
+            </ul>
+        </nav>
     </div>
-  </header>
+</header> 
+    
+    <main id="main-content" role="main">
+        <div class="hero-section">
+    <div class="hero-slider">
+        <div class="slide active">
+            <img src="/assets/images/hero1.jpg" alt="主图片1">
+            <div class="slide-content">
+                <h1>Welcome to my blog</h1>
+                <p>在这里分享技术与技艺</p>
+                <p>Share technology and skills here</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <!-- 大横幅区域 -->
-  
-  <section class="hero-banner">
+<section class="experience-section">
     <div class="container">
-      <h1>张三的个人博客</h1>
-      <p>分享我的编程、设计和生活感悟</p>
-      
-      <a href="/blog/" class="cta-button">查看我的文章</a>
-      
+        <h2>博客特色</h2>
+        <p class="section-intro">分享技术文章、项目经验和个人见解</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <img src="/assets/images/tech.jpg" alt="技术">
+                <h3>技术文章</h3>
+                <a href="/blog/tech" class="feature-link">浏览文章</a>
+            </div>
+            <div class="feature-card">
+                <img src="/assets/images/projects.jpg" alt="项目">
+                <h3>项目展示</h3>
+                <a href="/projects" class="feature-link">查看项目</a>
+            </div>
+            <div class="feature-card">
+                <img src="/assets/images/thoughts.jpg" alt="思考">
+                <h3>个人思考</h3>
+                <a href="/blog/thoughts" class="feature-link">阅读更多</a>
+            </div>
+        </div>
     </div>
-  </section>
-  
+</section>
 
-  <!-- 主要内容区 -->
-  <main class="main-content">
-    <div class="container main-container">
-      <h2 id="欢迎来到我的个人空间">欢迎来到我的个人空间</h2>
-
-<p>这里是我分享知识和经验的地方。作为一名[您的职业]，我专注于[您的专业领域]，并热衷于探索[您的兴趣爱好]。</p>
-
-<p>通过这个博客，我希望能够：</p>
-<ul>
-  <li>分享我在[领域]的经验和见解</li>
-  <li>记录我的学习过程和成长</li>
-  <li>与志同道合的朋友交流和讨论</li>
-</ul>
-
-    </div>
-  </main>
-
-  <!-- 数字展示区 -->
-  
-  <section class="stats-section">
+<section class="stats-section">
     <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-number">3</span>
-          <span class="stat-label">博客文章</span>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">技术文章</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">开源项目</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1000+</span>
+                <span class="stat-label">Github Stars</span>
+            </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-number">0</span>
-          <span class="stat-label">完成项目</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">{"years"=>5}</span>
-          <span class="stat-label">年经验</span>
-        </div>
-      </div>
     </div>
-  </section>
-  
+</section> 
+    </main>
 
-  <!-- 精选内容区 -->
-  
-  <section class="featured-content">
+    <!-- 页脚 -->
+<footer class="site-footer">
     <div class="container">
-      <h2>精选文章</h2>
-      <div class="featured-grid">
-        
-        <div class="featured-item">
-          
-          <h3><a href="/blog/2023/06/15/welcome-to-my-blog/">Welcome To My Blog</a></h3>
-          <p class="featured-excerpt">
-</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于</h3>
+                <p>曹淋锦荣的个人博客，分享技术见解和项目经验。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/hzbar">盘杠</a></li>
+                    <li><a href="/blog">博客</a></li>
+                    <li><a href="/projects">项目</a></li>
+                    <li><a href="/about">关于</a></li>
+                    <li><a href="/contact">联系</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>邮箱：Cao_mouiller@163.com</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
         </div>
-        
-        <div class="featured-item">
-          
-          <div class="featured-image" style="background-image: url('/assets/images/posts/markdown-guide.jpg')"></div>
-          
-          <h3><a href="/blog/2023/02/20/markdown-guide/">Markdown写作指南</a></h3>
-          <p class="featured-excerpt">Markdown基础指南
-</p>
+        <div class="footer-bottom">
+            <p>&copy; 2025 我的博客. 保留所有权利。</p>
         </div>
-        
-        <div class="featured-item">
-          
-          <div class="featured-image" style="background-image: url('/assets/images/posts/hello-world.jpg')"></div>
-          
-          <h3><a href="/blog/2023/01/15/hello-world/">你好，世界！</a></h3>
-          <p class="featured-excerpt">欢迎来到我的博客
-</p>
-        </div>
-        
-      </div>
     </div>
-  </section>
-  
-
-  <!-- 页脚 -->
-  <footer class="main-footer">
-    <div class="container footer-container">
-      <div class="footer-info">
-        <p>&copy; 2025 张三的个人博客</p>
-        <div class="social-links">
-          <!-- 添加社交媒体图标链接 -->
-          <a href="#" class="social-icon">微博</a>
-          <a href="#" class="social-icon">知乎</a>
-          <a href="#" class="social-icon">GitHub</a>
-        </div>
-      </div>
-      <div class="footer-nav">
-        <h4>链接</h4>
-        <ul>
-          <li><a href="/">首页</a></li>
-          <li><a href="/blog/">博客</a></li>
-          <li><a href="/about/">关于</a></li>
-          <li><a href="/contact/">联系我</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
+</footer> 
+    
+    <script src="/assets/js/main.js"></script>
 </body>
-</html>
+</html> 

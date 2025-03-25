@@ -1,114 +1,26 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ '/assets/css/fallback.css' | relative_url }}">
 </head>
 <body>
-  <!-- 顶部导航栏 -->
-  <header class="main-header">
-    <div class="container header-container">
-      <a href="/" class="logo">{{ site.title }}</a>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="/">首页</a></li>
-          <li><a href="/blog/">博客</a></li>
-          <li><a href="/projects/">项目</a></li>
-          <li><a href="/about/">关于</a></li>
-        </ul>
-      </nav>
+    <div class="skip-links">
+        <a href="#main-content">跳转到主要内容</a>
     </div>
-  </header>
 
-  <!-- 大横幅区域 -->
-  {% if page.homepage %}
-  <section class="hero-banner">
-    <div class="container">
-      <h1>{{ page.banner_title | default: "欢迎来到我的博客" }}</h1>
-      <p>{{ page.banner_subtitle | default: "分享我的想法、项目和经验" }}</p>
-      {% if page.show_cta %}
-      <a href="{{ page.cta_link | default: '/blog/' }}" class="cta-button">{{ page.cta_text | default: "阅读博客" }}</a>
-      {% endif %}
-    </div>
-  </section>
-  {% endif %}
+    {% include header.html %}
+    
+    <main id="main-content" role="main">
+        {{ content }}
+    </main>
 
-  <!-- 主要内容区 -->
-  <main class="main-content">
-    <div class="container main-container">
-      {{ content }}
-    </div>
-  </main>
-
-  <!-- 数字展示区 -->
-  {% if page.homepage %}
-  <section class="stats-section">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-number">{{ site.posts | size }}</span>
-          <span class="stat-label">博客文章</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">{{ site.projects | size | default: "0" }}</span>
-          <span class="stat-label">完成项目</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">{{ site.data.years_experience | default: "N" }}</span>
-          <span class="stat-label">年经验</span>
-        </div>
-      </div>
-    </div>
-  </section>
-  {% endif %}
-
-  <!-- 精选内容区 -->
-  {% if page.homepage %}
-  <section class="featured-content">
-    <div class="container">
-      <h2>精选文章</h2>
-      <div class="featured-grid">
-        {% for post in site.posts limit:4 %}
-        <div class="featured-item">
-          {% if post.image %}
-          <div class="featured-image" style="background-image: url('{{ post.image }}')"></div>
-          {% endif %}
-          <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-          <p class="featured-excerpt">{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-  {% endif %}
-
-  <!-- 页脚 -->
-  <footer class="main-footer">
-    <div class="container footer-container">
-      <div class="footer-info">
-        <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}</p>
-        <div class="social-links">
-          <!-- 添加社交媒体图标链接 -->
-          <a href="#" class="social-icon">微博</a>
-          <a href="#" class="social-icon">知乎</a>
-          <a href="#" class="social-icon">GitHub</a>
-        </div>
-      </div>
-      <div class="footer-nav">
-        <h4>链接</h4>
-        <ul>
-          <li><a href="/">首页</a></li>
-          <li><a href="/blog/">博客</a></li>
-          <li><a href="/about/">关于</a></li>
-          <li><a href="/contact/">联系我</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
+    {% include footer.html %}
+    
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
-</html>
+</html> 

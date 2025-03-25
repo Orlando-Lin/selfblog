@@ -1,13 +1,22 @@
+<!-- 头部 -->
 <header class="site-header">
-  <div class="wrapper">
-    <nav class="site-nav">
-      <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
-      <div class="nav-links">
-        <a class="page-link" href="{{ site.baseurl }}/about/">关于</a>
-        <a class="page-link" href="{{ site.baseurl }}/archive/">归档</a>
-        <a class="page-link" href="{{ site.baseurl }}/categories/">分类</a>
-        <a class="page-link" href="{{ site.baseurl }}/tags/">标签</a>
-      </div>
-    </nav>
-  </div>
+    <div class="container header-container">
+        <div class="logo">
+            <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        </div>
+        
+        <nav class="main-nav">
+            <button class="menu-toggle" aria-label="菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="{{ '/' | relative_url }}">首页</a></li>
+                <li><a href="{{ '/hzbar' | relative_url }}">盘杠</a></li>
+                <li><a href="{{ '/blog' | relative_url }}">博客</a></li>
+                <li><a href="{{ '/projects' | relative_url }}">项目</a></li>
+                <li><a href="{{ '/about' | relative_url }}">关于</a></li>
+                <li><a href="{{ '/contact' | relative_url }}">联系</a></li>
+            </ul>
+        </nav>
+    </div>
 </header> 
