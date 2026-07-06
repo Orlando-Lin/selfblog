@@ -1,6 +1,6 @@
 "use client";
 
-import type { TocItem } from "@/lib/posts";
+import type { TocItem } from "@/lib/markdown-utils";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export function PostToc({ items }: { items: TocItem[] }) {

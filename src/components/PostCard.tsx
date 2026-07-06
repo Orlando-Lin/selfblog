@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { PostMeta } from "@/lib/posts";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 function fmt(date: string) {
   if (!date) return "";
@@ -17,6 +20,7 @@ export function PostCard({
   post: PostMeta;
   index?: number;
 }) {
+  const { t } = useLanguage();
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -46,7 +50,7 @@ export function PostCard({
           <span key={t}>#{t}</span>
         ))}
         <span className="ml-auto flex items-center gap-1">
-          {post.readingTime} min
+          {post.readingTime} {t.blog.readMin}
           <ArrowUpRight className="h-3.5 w-3.5 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]" />
         </span>
       </div>

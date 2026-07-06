@@ -20,3 +20,20 @@ tags: [Next.js, 示例]
 ### 三级标题也会出现在目录里
 
 写完后运行 `npm run build`，文章会自动出现在博客列表。
+
+---
+
+## 英文版（可选）
+
+在 `content/posts/en/` 下创建 **同名** 文件（如 `my-post.md`），切换 EN 模式时会显示英文标题、摘要、分类、标签与正文。`date` 可省略，默认沿用中文版。
+
+```yaml
+---
+title: Post Title
+description: One-line summary for list & SEO
+category: Tech
+tags: [Next.js, Example]
+---
+```
+
+英文 `tags` 建议与中文版 **顺序一致**，便于分类/标签页双语对应。

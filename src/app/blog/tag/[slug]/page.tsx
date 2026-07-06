@@ -1,21 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllTags, getPostsByTag } from "@/lib/posts";
+import { getAllPostBundles } from "@/lib/posts";
 import { fromSlug, toSlug } from "@/lib/blog-utils";
-import { PostCard } from "@/components/PostCard";
-import { Reveal } from "@/components/Reveal";
+import { bundleMatchesTag } from "@/lib/post-i18n";
+import { LocalizedPostGrid } from "@/components/blog/LocalizedPostGrid";
+import { TaxonomyHeader } from "@/components/blog/TaxonomyHeader";
 
 export function generateStaticParams() {
-  return getAllTags().map(({ tag }) => ({ slug: toSlug(tag) }));
+  const bundles = getAllPostBundles();
+  const slugs = new Set<string>();
+  for (const b of bundles) {
+    for (const t of b.zh.tags) slugs.add(toSlug(t));
+    for (const t of b.en?.tags ?? []) slugs.add(toSlug(t));
+  }
+  return [...slugs].map((slug) => ({ slug }));
 }
 
-function resolveTag(slug: string): string | null {
+function resolveTagSlug(slug: string): string | null {
   const decoded = fromSlug(slug);
-  const match = getAllTags().find(
-    ({ tag }) => toSlug(tag) === decoded || tag === decoded
-  );
-  return match?.tag ?? null;
+  for (const b of getAllPostBundles()) {
+    for (const t of b.zh.tags) {
+      if (toSlug(t) === decoded || t === decoded) return t;
+    }
+    for (const t of b.en?.tags ?? []) {
+      if (toSlug(t) === decoded || t === decoded) return t;
+    }
+  }
+  return null;
 }
 
 export async function generateMetadata({
@@ -24,7 +36,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const tag = resolveTag(slug);
+  const tag = resolveTagSlug(slug);
   if (!tag) return { title: "标签未找到" };
   return { title: `#${tag} · 标签`, description: `标签「${tag}」下的全部文章` };
 }
@@ -35,10 +47,13 @@ export default async function TagPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const tag = resolveTag(slug);
-  if (!tag) notFound();
+  const tagKey = resolveTagSlug(slug);
+  if (!tagKey) notFound();
 
-  const posts = getPostsByTag(tag);
+  const bundles = getAllPostBundles().filter((b) =>
+    bundleMatchesTag(b, tagKey)
+  );
+  if (bundles.length === 0) notFound();
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-12">
@@ -48,18 +63,8 @@ export default async function TagPage({
       >
         ← cd ../blog
       </Link>
-      <header className="py-8">
-        <div className="mono-label">tag</div>
-        <h1 className="serif-title mt-3 text-4xl">#{tag}</h1>
-        <p className="mono mt-3 text-sm text-muted">{posts.length} 篇使用此标签</p>
-      </header>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((p, i) => (
-          <Reveal key={p.slug} className="h-full" delay={(i % 3) * 0.06}>
-            <PostCard post={p} index={i} />
-          </Reveal>
-        ))}
-      </div>
+      <TaxonomyHeader bundles={bundles} kind="tag" filterKey={tagKey} />
+      <LocalizedPostGrid bundles={bundles} />
     </div>
   );
 }

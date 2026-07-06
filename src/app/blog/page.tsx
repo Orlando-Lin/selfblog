@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import {
-  getAllCategories,
-  getAllPosts,
-  getAllTags,
-} from "@/lib/posts";
+import { getAllPostBundles } from "@/lib/posts";
 import { BlogHub } from "@/components/blog/BlogHub";
 
 export const metadata: Metadata = {
@@ -13,9 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
-  const posts = getAllPosts();
-  const categories = getAllCategories();
-  const tags = getAllTags();
+  const bundles = getAllPostBundles();
 
   return (
     <Suspense
@@ -25,7 +19,7 @@ export default function BlogPage() {
         </div>
       }
     >
-      <BlogHub posts={posts} categories={categories} tags={tags} />
+      <BlogHub bundles={bundles} />
     </Suspense>
   );
 }

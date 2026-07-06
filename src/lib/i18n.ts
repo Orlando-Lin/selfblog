@@ -88,6 +88,7 @@ export const dict = {
       backBlog: "返回博客",
       postsInCategory: "篇在此分类",
       postsWithTag: "篇使用此标签",
+      readMin: "分钟",
     },
   },
   en: {
@@ -179,6 +180,7 @@ export const dict = {
       backBlog: "Back to blog",
       postsInCategory: "in this category",
       postsWithTag: "with this tag",
+      readMin: "min",
     },
   },
 } as const;

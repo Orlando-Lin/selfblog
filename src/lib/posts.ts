@@ -1,9 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import GithubSlugger from "github-slugger";
+import type { TocItem } from "@/lib/markdown-utils";
+
+export type { TocItem };
 
 const postsDir = path.join(process.cwd(), "content", "posts");
+const enPostsDir = path.join(postsDir, "en");
 
 export type PostMeta = {
   slug: string;
@@ -18,18 +21,24 @@ export type PostMeta = {
 
 export type Post = PostMeta & { content: string };
 
-export type TocItem = { level: number; text: string; id: string };
+export type PostBundle = {
+  slug: string;
+  date: string;
+  cover?: string;
+  zh: PostMeta;
+  en: PostMeta | null;
+  zhPost: Post;
+  enPost: Post | null;
+};
 
 function estimateReadingTime(content: string): number {
-  // mixed CN/EN: count CJK chars + words, ~350 cpm
   const cjk = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
   const words = (content.match(/[a-zA-Z0-9]+/g) || []).length;
   return Math.max(1, Math.round((cjk + words) / 350));
 }
 
-function readPostFile(fileName: string): Post {
-  const slug = fileName.replace(/\.md$/, "");
-  const raw = fs.readFileSync(path.join(postsDir, fileName), "utf8");
+function readMarkdownFile(filePath: string, slug: string): Post {
+  const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
   return {
     slug,
@@ -44,23 +53,57 @@ function readPostFile(fileName: string): Post {
   };
 }
 
-export function getAllPosts(): PostMeta[] {
+function readZhPost(slug: string): Post | null {
+  const file = path.join(postsDir, `${slug}.md`);
+  if (!fs.existsSync(file)) return null;
+  return readMarkdownFile(file, slug);
+}
+
+function readEnPost(slug: string): Post | null {
+  const file = path.join(enPostsDir, `${slug}.md`);
+  if (!fs.existsSync(file)) return null;
+  return readMarkdownFile(file, slug);
+}
+
+function toMeta(post: Post): PostMeta {
+  const { content, ...meta } = post;
+  void content;
+  return meta;
+}
+
+export function getPostBundle(slug: string): PostBundle | null {
+  const zhPost = readZhPost(slug);
+  if (!zhPost) return null;
+  const enPost = readEnPost(slug);
+  return {
+    slug,
+    date: zhPost.date,
+    cover: zhPost.cover ?? enPost?.cover,
+    zh: toMeta(zhPost),
+    en: enPost ? toMeta(enPost) : null,
+    zhPost,
+    enPost,
+  };
+}
+
+export function getAllPostBundles(): PostBundle[] {
   if (!fs.existsSync(postsDir)) return [];
   return fs
     .readdirSync(postsDir)
     .filter((f) => f.endsWith(".md") && !f.startsWith("_"))
-    .map((f) => {
-      const { content, ...meta } = readPostFile(f);
-      void content;
-      return meta;
-    })
+    .map((f) => getPostBundle(f.replace(/\.md$/, "")))
+    .filter((b): b is PostBundle => b !== null)
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
+/** @deprecated use getAllPostBundles + pickMeta */
+export function getAllPosts(): PostMeta[] {
+  return getAllPostBundles().map((b) => b.zh);
+}
+
+/** @deprecated use getPostBundle + pickPost */
 export function getPost(slug: string): Post | null {
-  const file = path.join(postsDir, `${slug}.md`);
-  if (!fs.existsSync(file)) return null;
-  return readPostFile(`${slug}.md`);
+  return readZhPost(slug);
 }
 
 export function getAllSlugs(): string[] {
@@ -71,24 +114,7 @@ export function getAllSlugs(): string[] {
     .map((f) => f.replace(/\.md$/, ""));
 }
 
-function slugifyHeading(text: string): string {
-  return new GithubSlugger().slug(text);
-}
-
-export function extractHeadings(markdown: string): TocItem[] {
-  const items: TocItem[] = [];
-  for (const line of markdown.split("\n")) {
-    const m = /^(#{2,4})\s+(.+)$/.exec(line);
-    if (!m) continue;
-    const level = m[1].length;
-    const text = m[2].replace(/\s*#+\s*$/, "").trim();
-    if (level >= 2 && level <= 4) {
-      items.push({ level, text, id: slugifyHeading(text) });
-    }
-  }
-  return items;
-}
-
+/** @deprecated use getAllPostBundles + getLocalizedCategories */
 export function getAllTags(): { tag: string; count: number }[] {
   const counts = new Map<string, number>();
   for (const p of getAllPosts()) {
@@ -99,6 +125,7 @@ export function getAllTags(): { tag: string; count: number }[] {
     .sort((a, b) => b.count - a.count);
 }
 
+/** @deprecated use getAllPostBundles + getLocalizedCategories */
 export function getAllCategories(): { category: string; count: number }[] {
   const counts = new Map<string, number>();
   for (const p of getAllPosts()) {
@@ -109,14 +136,17 @@ export function getAllCategories(): { category: string; count: number }[] {
     .sort((a, b) => b.count - a.count);
 }
 
+/** @deprecated */
 export function getPostsByCategory(category: string): PostMeta[] {
   return getAllPosts().filter((p) => p.category === category);
 }
 
+/** @deprecated */
 export function getPostsByTag(tag: string): PostMeta[] {
   return getAllPosts().filter((p) => p.tags.includes(tag));
 }
 
+/** @deprecated */
 export function searchPosts(query: string): PostMeta[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];

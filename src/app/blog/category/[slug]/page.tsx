@@ -1,22 +1,36 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllCategories, getPostsByCategory } from "@/lib/posts";
-import { blogCategoryUrl, fromSlug, toSlug } from "@/lib/blog-utils";import { PostCard } from "@/components/PostCard";
-import { Reveal } from "@/components/Reveal";
+import { getAllPostBundles } from "@/lib/posts";
+import { fromSlug, toSlug } from "@/lib/blog-utils";
+import { bundleMatchesCategory } from "@/lib/post-i18n";
+import { LocalizedPostGrid } from "@/components/blog/LocalizedPostGrid";
+import { TaxonomyHeader } from "@/components/blog/TaxonomyHeader";
 
 export function generateStaticParams() {
-  return getAllCategories().map(({ category }) => ({
-    slug: toSlug(category),
-  }));
+  const bundles = getAllPostBundles();
+  const slugs = new Set<string>();
+  for (const b of bundles) {
+    slugs.add(toSlug(b.zh.category));
+    if (b.en) slugs.add(toSlug(b.en.category));
+  }
+  return [...slugs].map((slug) => ({ slug }));
 }
 
-function resolveCategory(slug: string): string | null {
+function resolveCategorySlug(slug: string): string | null {
   const decoded = fromSlug(slug);
-  const match = getAllCategories().find(
-    ({ category }) => toSlug(category) === decoded || category === decoded
-  );
-  return match?.category ?? null;
+  for (const b of getAllPostBundles()) {
+    if (toSlug(b.zh.category) === decoded || b.zh.category === decoded) {
+      return b.zh.category;
+    }
+    if (
+      b.en &&
+      (toSlug(b.en.category) === decoded || b.en.category === decoded)
+    ) {
+      return b.zh.category;
+    }
+  }
+  return null;
 }
 
 export async function generateMetadata({
@@ -25,7 +39,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const name = resolveCategory(slug);
+  const name = resolveCategorySlug(slug);
   if (!name) return { title: "分类未找到" };
   return { title: `${name} · 分类`, description: `分类「${name}」下的全部文章` };
 }
@@ -36,10 +50,13 @@ export default async function CategoryPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const category = resolveCategory(slug);
-  if (!category) notFound();
+  const categoryKey = resolveCategorySlug(slug);
+  if (!categoryKey) notFound();
 
-  const posts = getPostsByCategory(category);
+  const bundles = getAllPostBundles().filter((b) =>
+    bundleMatchesCategory(b, categoryKey)
+  );
+  if (bundles.length === 0) notFound();
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-12">
@@ -49,18 +66,12 @@ export default async function CategoryPage({
       >
         ← cd ../blog
       </Link>
-      <header className="py-8">
-        <div className="mono-label">category</div>
-        <h1 className="serif-title mt-3 text-4xl">{category}</h1>
-        <p className="mono mt-3 text-sm text-muted">{posts.length} 篇在此分类</p>
-      </header>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((p, i) => (
-          <Reveal key={p.slug} className="h-full" delay={(i % 3) * 0.06}>
-            <PostCard post={p} index={i} />
-          </Reveal>
-        ))}
-      </div>
+      <TaxonomyHeader
+        bundles={bundles}
+        kind="category"
+        filterKey={categoryKey}
+      />
+      <LocalizedPostGrid bundles={bundles} />
     </div>
   );
 }

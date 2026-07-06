@@ -11,21 +11,29 @@ import {
   List,
   Search,
 } from "lucide-react";
-import type { PostMeta } from "@/lib/posts";
+import type { PostBundle } from "@/lib/posts";
 import {
   POSTS_PAGE_SIZE,
   blogCategoryUrl,
   blogTagUrl,
 } from "@/lib/blog-utils";
+import {
+  bundleMatchesCategory,
+  bundleMatchesTag,
+  getLocalizedCategories,
+  getLocalizedTags,
+  pickMeta,
+  resolveDisplayCategory,
+  resolveDisplayTag,
+  searchBundles,
+} from "@/lib/post-i18n";
 import { PostCard } from "@/components/PostCard";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export type BlogView = "articles" | "categories" | "tags" | "search";
 
 type Props = {
-  posts: PostMeta[];
-  categories: { category: string; count: number }[];
-  tags: { tag: string; count: number }[];
+  bundles: PostBundle[];
   initialView?: BlogView;
   initialQuery?: string;
   initialPage?: number;
@@ -39,14 +47,13 @@ const tabs: { id: BlogView; icon: typeof List }[] = [
 ];
 
 export function BlogHub({
-  posts,
-  categories,
-  tags,
+  bundles,
   initialView = "articles",
   initialQuery = "",
   initialPage = 1,
 }: Props) {
-  const { t } = useLanguage();
+  const { t, lang, mounted } = useLanguage();
+  const activeLang = mounted ? lang : "zh";
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -115,18 +122,40 @@ export function BlogHub({
     syncUrl({ view: v, page: 1, category: null, tag: null });
   };
 
-  const filtered = useMemo(() => {
+  const categories = useMemo(
+    () => getLocalizedCategories(bundles, activeLang),
+    [bundles, activeLang]
+  );
+  const tags = useMemo(
+    () => getLocalizedTags(bundles, activeLang),
+    [bundles, activeLang]
+  );
+
+  const filteredBundles = useMemo(() => {
     if (activeCategory) {
-      return posts.filter((p) => p.category === activeCategory);
+      return bundles.filter((b) => bundleMatchesCategory(b, activeCategory));
     }
     if (activeTag) {
-      return posts.filter((p) => p.tags.includes(activeTag));
+      return bundles.filter((b) => bundleMatchesTag(b, activeTag));
     }
-    if (view !== "search") return posts;
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return posts.filter((p) => p.title.toLowerCase().includes(q));
-  }, [posts, view, query, activeCategory, activeTag]);
+    if (view !== "search") return bundles;
+    return searchBundles(bundles, activeLang, query);
+  }, [bundles, view, query, activeCategory, activeTag, activeLang]);
+
+  const filtered = useMemo(
+    () => filteredBundles.map((b) => pickMeta(b, activeLang)),
+    [filteredBundles, activeLang]
+  );
+
+  const displayCategory = useMemo(
+    () => resolveDisplayCategory(bundles, activeCategory, activeLang),
+    [activeCategory, bundles, activeLang]
+  );
+
+  const displayTag = useMemo(
+    () => resolveDisplayTag(bundles, activeTag, activeLang),
+    [activeTag, bundles, activeLang]
+  );
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -166,23 +195,23 @@ export function BlogHub({
 
       {view === "articles" && (
         <>
-          {activeCategory && (
+          {displayCategory && (
             <FilterHeader
               label={t.blog.categoryFilter}
-              value={activeCategory}
+              value={displayCategory}
               backHref="/blog?view=categories"
               backLabel={t.blog.allCategories}
             />
           )}
-          {activeTag && (
+          {displayTag && (
             <FilterHeader
               label={t.blog.tagFilter}
-              value={`#${activeTag}`}
+              value={`#${displayTag}`}
               backHref="/blog?view=tags"
               backLabel={t.blog.allTags}
             />
           )}
-          {!activeCategory && !activeTag && (
+          {!displayCategory && !displayTag && (
             <p className="mono mb-6 text-xs text-muted">{t.blog.articlesDesc}</p>
           )}
           {pagePosts.length === 0 ? (
