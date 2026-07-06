@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Newspaper, TerminalSquare } from "lucide-react";
 import { useHomeMode, type HomeMode } from "@/components/providers/HomeModeProvider";
@@ -10,14 +9,11 @@ export function ModeToggle() {
   const { mode, setMode, mounted } = useHomeMode();
   const { setTheme } = useTheme();
   const { t } = useLanguage();
-  const pathname = usePathname();
-  const router = useRouter();
 
   const choose = (m: HomeMode) => {
     setMode(m);
     // each mode has a sensible default theme; user can still override afterwards
     setTheme(m === "geek" ? "dark" : "light");
-    if (pathname !== "/") router.push("/");
   };
 
   const current = mounted ? mode : "normal";

@@ -12,7 +12,11 @@ import {
   Search,
 } from "lucide-react";
 import type { PostMeta } from "@/lib/posts";
-import { POSTS_PAGE_SIZE, toSlug } from "@/lib/blog-utils";
+import {
+  POSTS_PAGE_SIZE,
+  blogCategoryUrl,
+  blogTagUrl,
+} from "@/lib/blog-utils";
 import { PostCard } from "@/components/PostCard";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
@@ -53,7 +57,13 @@ export function BlogHub({
 
   useEffect(() => {
     const v = searchParams.get("view") as BlogView | null;
-    if (v && tabs.some((tab) => tab.id === v)) setView(v);
+    const hasFilter =
+      searchParams.get("category") || searchParams.get("tag");
+    if (hasFilter) {
+      setView("articles");
+    } else if (v && tabs.some((tab) => tab.id === v)) {
+      setView(v);
+    }
     const q = searchParams.get("q") ?? "";
     setQuery(q);
     setDraft(q);
@@ -61,37 +71,62 @@ export function BlogHub({
     setPage(Number.isFinite(p) && p > 0 ? p : 1);
   }, [searchParams]);
 
+  const activeCategory = searchParams.get("category");
+  const activeTag = searchParams.get("tag");
+
   const syncUrl = useCallback(
-    (next: { view?: BlogView; page?: number; q?: string }) => {
+    (next: {
+      view?: BlogView;
+      page?: number;
+      q?: string;
+      category?: string | null;
+      tag?: string | null;
+    }) => {
       const params = new URLSearchParams();
-      const v = next.view ?? view;
-      params.set("view", v);
-      if (v === "articles") {
-        const pg = next.page ?? page;
-        if (pg > 1) params.set("page", String(pg));
-      }
-      if (v === "search") {
-        const qq = next.q ?? query;
-        if (qq) params.set("q", qq);
+      const cat =
+        next.category !== undefined ? next.category : activeCategory;
+      const tg = next.tag !== undefined ? next.tag : activeTag;
+
+      if (cat) {
+        params.set("category", cat);
+      } else if (tg) {
+        params.set("tag", tg);
+      } else {
+        const v = next.view ?? view;
+        params.set("view", v);
+        if (v === "articles") {
+          const pg = next.page ?? page;
+          if (pg > 1) params.set("page", String(pg));
+        }
+        if (v === "search") {
+          const qq = next.q ?? query;
+          if (qq) params.set("q", qq);
+        }
       }
       const qs = params.toString();
       router.replace(qs ? `/blog?${qs}` : "/blog", { scroll: false });
     },
-    [view, page, query, router]
+    [view, page, query, router, activeCategory, activeTag]
   );
 
   const switchView = (v: BlogView) => {
     setView(v);
     setPage(1);
-    syncUrl({ view: v, page: 1 });
+    syncUrl({ view: v, page: 1, category: null, tag: null });
   };
 
   const filtered = useMemo(() => {
+    if (activeCategory) {
+      return posts.filter((p) => p.category === activeCategory);
+    }
+    if (activeTag) {
+      return posts.filter((p) => p.tags.includes(activeTag));
+    }
     if (view !== "search") return posts;
     const q = query.trim().toLowerCase();
     if (!q) return [];
     return posts.filter((p) => p.title.toLowerCase().includes(q));
-  }, [posts, view, query]);
+  }, [posts, view, query, activeCategory, activeTag]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -131,7 +166,25 @@ export function BlogHub({
 
       {view === "articles" && (
         <>
-          <p className="mono mb-6 text-xs text-muted">{t.blog.articlesDesc}</p>
+          {activeCategory && (
+            <FilterHeader
+              label={t.blog.categoryFilter}
+              value={activeCategory}
+              backHref="/blog?view=categories"
+              backLabel={t.blog.allCategories}
+            />
+          )}
+          {activeTag && (
+            <FilterHeader
+              label={t.blog.tagFilter}
+              value={`#${activeTag}`}
+              backHref="/blog?view=tags"
+              backLabel={t.blog.allTags}
+            />
+          )}
+          {!activeCategory && !activeTag && (
+            <p className="mono mb-6 text-xs text-muted">{t.blog.articlesDesc}</p>
+          )}
           {pagePosts.length === 0 ? (
             <Empty msg={t.blog.noPosts} />
           ) : (
@@ -168,7 +221,7 @@ export function BlogHub({
             {categories.map(({ category, count }) => (
               <Link
                 key={category}
-                href={`/blog/category/${toSlug(category)}/`}
+                href={blogCategoryUrl(category)}
                 className="group flex items-center justify-between rounded-xl border border-[rgb(var(--line)/0.14)] bg-[var(--card)] p-5 transition-all hover:-translate-y-0.5 hover:border-[rgb(var(--line)/0.28)]"
               >
                 <span className="font-serif-d text-xl font-bold group-hover:text-[var(--accent)]">
@@ -190,7 +243,7 @@ export function BlogHub({
             {tags.map(({ tag, count }) => (
               <Link
                 key={tag}
-                href={`/blog/tag/${toSlug(tag)}/`}
+                href={blogTagUrl(tag)}
                 className="mono inline-flex items-center gap-2 rounded-full border border-[rgb(var(--line)/0.14)] px-4 py-2 text-sm transition-colors hover:border-[var(--geek)] hover:text-[var(--geek)]"
               >
                 #{tag}
@@ -240,6 +293,31 @@ export function BlogHub({
           )}
         </>
       )}
+    </div>
+  );
+}
+
+function FilterHeader({
+  label,
+  value,
+  backHref,
+  backLabel,
+}: {
+  label: string;
+  value: string;
+  backHref: string;
+  backLabel: string;
+}) {
+  return (
+    <div className="mb-6 rounded-xl border border-[rgb(var(--line)/0.14)] bg-[var(--card)] p-5">
+      <Link
+        href={backHref}
+        className="mono inline-flex text-sm text-muted transition-colors hover:text-ink"
+      >
+        ← {backLabel}
+      </Link>
+      <p className="mono-label mt-4">{label}</p>
+      <h2 className="serif-title mt-2 text-3xl">{value}</h2>
     </div>
   );
 }

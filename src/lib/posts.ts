@@ -78,7 +78,7 @@ function slugifyHeading(text: string): string {
 export function extractHeadings(markdown: string): TocItem[] {
   const items: TocItem[] = [];
   for (const line of markdown.split("\n")) {
-    const m = /^(2,4})\s+(.+)$/.exec(line);
+    const m = /^(#{2,4})\s+(.+)$/.exec(line);
     if (!m) continue;
     const level = m[1].length;
     const text = m[2].replace(/\s*#+\s*$/, "").trim();

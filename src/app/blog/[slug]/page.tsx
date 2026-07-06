@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { extractHeadings, getAllSlugs, getPost } from "@/lib/posts";
+import { blogTagUrl } from "@/lib/blog-utils";
 import { Markdown } from "@/components/Markdown";
 import { PostToc } from "@/components/blog/PostToc";
 
@@ -82,7 +83,7 @@ export default async function PostPage({
                 {post.tags.map((tg) => (
                   <Link
                     key={tg}
-                    href={`/blog/tag/${encodeURIComponent(tg)}/`}
+                    href={blogTagUrl(tg)}
                     className="transition-colors hover:text-[var(--geek)]"
                   >
                     #{tg}

@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  getAllCategories,
-  getPostsByCategory,
-} from "@/lib/posts";
-import { fromSlug, toSlug } from "@/lib/blog-utils";
-import { PostCard } from "@/components/PostCard";
+import { getAllCategories, getPostsByCategory } from "@/lib/posts";
+import { blogCategoryUrl, fromSlug, toSlug } from "@/lib/blog-utils";import { PostCard } from "@/components/PostCard";
 import { Reveal } from "@/components/Reveal";
 
 export function generateStaticParams() {
@@ -15,13 +11,22 @@ export function generateStaticParams() {
   }));
 }
 
+function resolveCategory(slug: string): string | null {
+  const decoded = fromSlug(slug);
+  const match = getAllCategories().find(
+    ({ category }) => toSlug(category) === decoded || category === decoded
+  );
+  return match?.category ?? null;
+}
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const name = fromSlug(slug);
+  const name = resolveCategory(slug);
+  if (!name) return { title: "分类未找到" };
   return { title: `${name} · 分类`, description: `分类「${name}」下的全部文章` };
 }
 
@@ -31,9 +36,10 @@ export default async function CategoryPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const category = fromSlug(slug);
+  const category = resolveCategory(slug);
+  if (!category) notFound();
+
   const posts = getPostsByCategory(category);
-  if (posts.length === 0) notFound();
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-12">

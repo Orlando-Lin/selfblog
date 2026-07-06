@@ -28,9 +28,15 @@ export function HomeModeProvider({ children }: { children: ReactNode }) {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (!mounted) return;
+    document.documentElement.dataset.homeMode = mode;
+  }, [mode, mounted]);
+
   const setMode = (m: HomeMode) => {
     setModeState(m);
     localStorage.setItem("home-mode", m);
+    document.documentElement.dataset.homeMode = m;
   };
 
   return (

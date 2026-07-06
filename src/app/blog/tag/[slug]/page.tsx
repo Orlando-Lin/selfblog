@@ -10,13 +10,22 @@ export function generateStaticParams() {
   return getAllTags().map(({ tag }) => ({ slug: toSlug(tag) }));
 }
 
+function resolveTag(slug: string): string | null {
+  const decoded = fromSlug(slug);
+  const match = getAllTags().find(
+    ({ tag }) => toSlug(tag) === decoded || tag === decoded
+  );
+  return match?.tag ?? null;
+}
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const tag = fromSlug(slug);
+  const tag = resolveTag(slug);
+  if (!tag) return { title: "标签未找到" };
   return { title: `#${tag} · 标签`, description: `标签「${tag}」下的全部文章` };
 }
 
@@ -26,9 +35,10 @@ export default async function TagPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const tag = fromSlug(slug);
+  const tag = resolveTag(slug);
+  if (!tag) notFound();
+
   const posts = getPostsByTag(tag);
-  if (posts.length === 0) notFound();
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-12">
