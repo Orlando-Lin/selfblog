@@ -30,12 +30,14 @@ cover: https://assets.virongx.com/blog/covers/tspie3M.png
 | **内存 (RAM)** | **4GB** / 8GB / 16GB /LPDDR5 |
 | **存储 (eMMC)** | 32GB / **64GB** / 128GB eMMC（选配） |
 | **视频输出** | HDMI 2.1（8K@60Hz 或 4K@120Hz）、DP 1.4（8K@30Hz）、MIPI-DSI（4K@60Hz） |
-| **视频输入** | MIPI-CSI（48M Pixel） |
-| **音频** | 3.5mm 耳机孔、Mic 输入、HDMI 音频输出 |
+| **视频输入** | MIPI-CSI 4Lane摄像头接口*3 |
+| **音频** | 3.5mm(声音输出+麦克风输入)、板载麦克风 |
 | **以太网** | 10/100/1000Mbps RJ45 网口 |
-| **无线网络** | WiFi 6（802.11 ax/ac/a/b/g/n）、Bluetooth 5.0 |
-| **USB** | 1× USB 3.0、3× USB 2.0、1× Type-C（OTG/DP） |
-| **拓展接口** | 40-pin GPIO 接口（兼容树莓派），包含 UART、I2C、SPI、PWM、ADC 等 |
+| **无线网络** | WiFi （2.4GHz&5GHz）、Bluetooth 5.2 |
+| **卡座** | TF+SIM二合一卡座，可以同时支持SIM卡和Micro SD（TF）卡 |
+| **Mini-PCle接口** | 支持PCle-WiFi、4G模块和mSATA |
+| **USB** | 1× USB 3.0 Type-A、3× USB 2.0 Type-A、1× Type-C（OTG/DP） |
+| **拓展接口** | 40-pin GPIO 接口（兼容树莓派），包含 UART、I2C、SPI、PWM、ADC 等，FAN(5V) |
 | **供电** | DC 5V/3A（Type-C） |
 | **操作系统** | Android 12、Debian 11、Ubuntu 20.04/22.04、Buildroot |
 | **尺寸** | 85mm × 56mm |
@@ -57,4 +59,10 @@ cover: https://assets.virongx.com/blog/covers/tspie3M.png
 | **ADC** | 2 路 | 模拟数字转换输入 |
 | **GPIO** | 14 个 | 通用可编程输入/输出引脚 |
 
+
+
 感谢阅读，我们下篇见。
+
+
+
+**本页面更新于: 2026年7月10日 00:02:35**

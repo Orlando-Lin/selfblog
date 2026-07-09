@@ -3,7 +3,7 @@ title: Taishan Pi 3M-RK3576 Overview
 description: "A brief resource guide for the Taishan Pi 3M-RK3576 (source: https://wiki.lckfb.com/zh-hans/tspi-3-rk3576/open-source-hardware/)"
 date: 2026-07-05
 category: Tech
-tags: [Taishan Pi, RK3576, Hardware, SBC, Learning, Linux]
+tags: [Taishan Pi, RK3576, Hardware, Dev Board, Learning, Linux]
 cover: https://assets.virongx.com/blog/covers/tspie3M.png
 ---
 
@@ -28,14 +28,16 @@ cover: https://assets.virongx.com/blog/covers/tspie3M.png
 | **NPU** | Up to 6 TOPS |
 | **VPU** | 8K@30fps H.265/VP9/AV1/AVS2 decoder |
 | **RAM** | **4GB** / 8GB / 16GB LPDDR5 |
-| **Storage** | 32GB / **64GB** / 128GB eMMC (optional) |
-| **Video out** | HDMI 2.1 (8K@60 or 4K@120), DP 1.4 (8K@30), MIPI-DSI (4K@60) |
-| **Video in** | MIPI-CSI (48M pixel) |
-| **Audio** | 3.5mm jack, mic in, HDMI audio |
+| **Storage (eMMC)** | 32GB / **64GB** / 128GB eMMC (optional) |
+| **Video out** | HDMI 2.1 (8K@60Hz or 4K@120Hz), DP 1.4 (8K@30Hz), MIPI-DSI (4K@60Hz) |
+| **Video in** | MIPI-CSI 4-lane camera interface ×3 |
+| **Audio** | 3.5mm (audio out + mic in), onboard microphone |
 | **Ethernet** | 10/100/1000 Mbps RJ45 |
-| **Wireless** | WiFi 6 (802.11 ax/ac/a/b/g/n), Bluetooth 5.0 |
-| **USB** | 1× USB 3.0, 3× USB 2.0, 1× Type-C (OTG/DP) |
-| **Expansion** | 40-pin GPIO (Raspberry Pi compatible): UART, I2C, SPI, PWM, ADC, etc. |
+| **Wireless** | WiFi (2.4 GHz & 5 GHz), Bluetooth 5.2 |
+| **Card slot** | TF + SIM combo slot; supports SIM and Micro SD (TF) cards simultaneously |
+| **Mini-PCIe** | Supports PCIe WiFi, 4G modules, and mSATA |
+| **USB** | 1× USB 3.0 Type-A, 3× USB 2.0 Type-A, 1× Type-C (OTG/DP) |
+| **Expansion** | 40-pin GPIO (Raspberry Pi compatible): UART, I2C, SPI, PWM, ADC, etc., FAN (5V) |
 | **Power** | DC 5V/3A (Type-C) |
 | **OS** | Android 12, Debian 11, Ubuntu 20.04/22.04, Buildroot |
 | **Size** | 85mm × 56mm |
@@ -58,3 +60,5 @@ The onboard **40-pin GPIO header** (Raspberry Pi pinout compatible) exposes:
 | **GPIO** | 14 pins | General-purpose I/O |
 
 Thanks for reading — see you in the next post.
+
+**Last updated: July 10, 2026 00:02:35**
