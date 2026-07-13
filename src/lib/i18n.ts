@@ -89,6 +89,7 @@ export const dict = {
       postsInCategory: "篇在此分类",
       postsWithTag: "篇使用此标签",
       readMin: "分钟",
+      readEstimate: "预计阅读：",
     },
   },
   en: {
@@ -181,6 +182,7 @@ export const dict = {
       postsInCategory: "in this category",
       postsWithTag: "with this tag",
       readMin: "min",
+      readEstimate: "Est. read: ",
     },
   },
 } as const;

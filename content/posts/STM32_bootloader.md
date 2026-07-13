@@ -19,15 +19,22 @@ cover: https://assets.virongx.com/blog/covers/STM32_bootloader.png
 > 4.  CPU从启动地址读取初始MSP和Reset_Handler地址。 
 > 5.  跳转到Reset_Handler开始执行用户程序（或System Bootloader）。
 
+## 目录
+
+- [1 硬件层上电复位](#1-硬件层上电复位)
+- [2 执行启动文件](#2-执行启动文件)
+- [3 详细介绍：以STM32G4系列为例](#3-详细介绍以stm32g4系列为例)
+- [4 总结](#4-总结)
+
 ## 1 硬件层上电复位
 
 > 由硬件电路和芯片内部逻辑控制。
 
 ### 1.1 上电&复位触发
 
-**上电**：随着VDD的上升，POR/BOR复位电路开始工作，判断电压是否达到阈值（是：内部Reset释放；否：MCU一直保持Reset），设备复位释放系统启动。
+上电：随着VDD的上升，POR/BOR复位电路开始工作，判断电压是否达到阈值（是：内部Reset释放；否：MCU一直保持Reset），设备复位释放系统启动。
 
-**复位按钮**：复位信号（NRST 引脚默认高电平）有效（低电平）时，芯片进入复位状态，所有寄存器恢复默认值，按钮释放系统启动。
+复位按钮：复位信号（NRST 引脚默认高电平）有效（低电平）时，芯片进入复位状态，所有寄存器恢复默认值，按钮释放系统启动。
 
 ### 1.2 读取boot地址
 
@@ -47,9 +54,9 @@ cover: https://assets.virongx.com/blog/covers/STM32_bootloader.png
 
 流程：复位电路→CPU开始执行BootROM→BootROM读取BOOT配置→决定启动Flash/System Memory/SRAM
 
-<u>一直提到Option Bytes,那它在哪如何配置？</u>
+一直提到Option Bytes,那它在哪如何配置？
 
-> Option Bytes 是 STM32 **<u>Flash 中的一块特殊配置区域</u>**，用来保存芯片启动、安全和读写保护等永久配置。
+> Option Bytes 是 STM32 **Flash 中的一块特殊配置区域**，用来保存芯片启动、安全和读写保护等永久配置。
 
 它属于 Flash Controller（FLASH）的管理范围,CPU一般不会去读取Option Bytes。而是BootROM通过FLASH控制器去读取。
 
@@ -67,7 +74,7 @@ cover: https://assets.virongx.com/blog/covers/STM32_bootloader.png
 
 进入System Memory后，等待PC发送HEX文件，烧写Flash之后Reset重新从Flash启动。
 
-链接：[Introduction to system memory boot mode on STM32 MCUs - Application note](https://www.st.com/resource/en/application_note/cd00167594-stm32-microcontroller-system-memory-boot-mode-stmicroelectronics.pdf)
+[Introduction to system memory boot mode on STM32 MCUs - Application note](https://www.st.com/resource/en/application_note/cd00167594-stm32-microcontroller-system-memory-boot-mode-stmicroelectronics.pdf)
 
 > 当Flash 已经被擦空没有程序了，就可以这样使用
 
@@ -77,7 +84,7 @@ cover: https://assets.virongx.com/blog/covers/STM32_bootloader.png
 
 使用该模式基本是调试，IDE直接下载到SRAM中立即运行，不用擦Flash。如果Flash坏了，可以下载程序到SRAM来检查Flash，或者测试Cache/SRAM/CPU。
 
-链接 ：[Getting started with STM32F4xxxx MCU hardware development - Application note](https://www.st.com/resource/en/application_note/dm00115714.pdf)
+[Getting started with STM32F4xxxx MCU hardware development - Application note](https://www.st.com/resource/en/application_note/dm00115714.pdf)
 
 ### 1.4 跳转到Reset_Handler
 
@@ -132,7 +139,7 @@ SystemInit()是CMSIS提供的函数，作用是初始化整个芯片，会配置
 >
 > __main并非main();
 
-在Keil（ARM Compiler）__main不是自己写的，它是来自ARM Runtime Library，此函数负责初始化RAM（<u>复制.data</u>：将Flash参数复制到RAM中 → <u>清零.bss</u>：int b;根据C标准b=0，启动文件负责memset()全部清零，否则RAM里全是垃圾数据） → 初始化全局变量（初始化c库 → 调用构造函数 ）→main()
+在Keil（ARM Compiler）__main不是自己写的，它是来自ARM Runtime Library，此函数负责初始化RAM（复制.data：将Flash参数复制到RAM中 → 清零.bss：int b;根据C标准b=0，启动文件负责memset()全部清零，否则RAM里全是垃圾数据） → 初始化全局变量（初始化c库 → 调用构造函数 ）→main()
 
 此处与GCC的startup不一样，GCC没有__main，是因为GCC将这些工作给拆分了。
 
@@ -698,4 +705,4 @@ STM32的启动流程是一个精密设计的多层次系统：
 
 
 
-**本页面更新于: 2026年7月10日 10:35:35**
+**本页面更新于: 2026年7月13日 20:00:35**

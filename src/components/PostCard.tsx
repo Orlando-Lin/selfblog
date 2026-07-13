@@ -50,7 +50,7 @@ export function PostCard({
           <span key={t}>#{t}</span>
         ))}
         <span className="ml-auto flex items-center gap-1">
-          {post.readingTime} {t.blog.readMin}
+          {t.blog.readEstimate}{post.readingTime} {t.blog.readMin}
           <ArrowUpRight className="h-3.5 w-3.5 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]" />
         </span>
       </div>

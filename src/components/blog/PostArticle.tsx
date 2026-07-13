@@ -48,8 +48,8 @@ export function PostArticle({ bundle }: { bundle: PostBundle }) {
                 <Calendar className="h-3.5 w-3.5" /> {dateText}
               </span>
               <span className="flex items-center gap-1 text-muted">
-                <Clock className="h-3.5 w-3.5" /> {post.readingTime}{" "}
-                {t.blog.readMin}
+                <Clock className="h-3.5 w-3.5" /> {t.blog.readEstimate}
+                {post.readingTime} {t.blog.readMin}
               </span>
             </div>
             <h1 className="serif-title mt-5 text-3xl leading-tight sm:text-4xl">
