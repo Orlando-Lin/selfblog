@@ -14,10 +14,10 @@ cover: https://assets.virongx.com/blog/covers/STM32_bootloader.png
 > STM32 上电后:
 >
 > 1. POR/BOR确认电源稳定，释放复位。
-> 2. BootROM根据BOOT0和Option Bytes等启动配置确定启动源。 
-> 3.  BootROM将对应的存储器映射到启动地址（0x00000000）。 
-> 4.  CPU从启动地址读取初始MSP和Reset_Handler地址。 
-> 5.  跳转到Reset_Handler开始执行用户程序（或System Bootloader）。
+> 2. BootROM根据BOOT0和Option Bytes等启动配置确定启动源。
+> 3. BootROM将对应的存储器映射到启动地址（0x00000000）。
+> 4. CPU从启动地址读取初始MSP和Reset_Handler地址。
+> 5. 跳转到Reset_Handler开始执行用户程序（或System Bootloader）。
 
 ## 目录
 
@@ -40,11 +40,13 @@ cover: https://assets.virongx.com/blog/covers/STM32_bootloader.png
 
 **F1系列**：读取 BOOT0（部分系列还有 BOOT1）再决定启动源。
 
-| BOOT1 | BOOT0 | 启动模式                  | 启动地址   |
-| :---- | :---- | :------------------------ | :--------- |
+
+| BOOT1 | BOOT0 | 启动模式            | 启动地址       |
+| ----- | ----- | --------------- | ---------- |
 | 0     | 0     | 闪存（Flash）启动（常用） | 0x08000000 |
-| 0     | 1     | 系统存储器（ISP 下载）    | 0x1FFFF000 |
-| 1     | 1     | SRAM 启动（调试）         | 0x20000000 |
+| 0     | 1     | 系统存储器（ISP 下载）   | 0x1FFFF000 |
+| 1     | 1     | SRAM 启动（调试）     | 0x20000000 |
+
 
 > 实际CPU 最开始访问的是：0x00000000
 >
@@ -92,13 +94,15 @@ cover: https://assets.virongx.com/blog/covers/STM32_bootloader.png
 
 Flash 最前面其实长这样：
 
-| 地址       | 内容                 |
-| ---------- | -------------------- |
-| 0x08000000 | 初始 MSP（主栈指针） |
-| 0x08000004 | Reset_Handler 地址   |
-| 0x08000008 | NMI_Handler          |
-| 0x0800000C | HardFault_Handler    |
-| .....      | MemManage_Handler    |
+
+| 地址         | 内容                |
+| ---------- | ----------------- |
+| 0x08000000 | 初始 MSP（主栈指针）      |
+| 0x08000004 | Reset_Handler 地址  |
+| 0x08000008 | NMI_Handler       |
+| 0x0800000C | HardFault_Handler |
+| .....      | MemManage_Handler |
+
 
 此时CPU第一件事情是读取MSP *(0x08000000)
 
@@ -155,13 +159,16 @@ STM32G4系列采用现代化的启动配置机制，不再使用传统的BOOT0/B
 
 STM32G4的启动源由以下因素决定：
 
-| nSWBOOT0 | nBOOT0 | 物理BOOT0引脚 | 实际启动源             |
-| -------- | ------ | ------------- | ---------------------- |
-| 1        | x      | x             | 由nBOOT0位决定         |
-| 0        | x      | 0             | System Memory（系统存储器） |
-| 0        | x      | 1             | 由nBOOT0位决定         |
+
+| nSWBOOT0 | nBOOT0 | 物理BOOT0引脚 | 实际启动源                |
+| -------- | ------ | --------- | -------------------- |
+| 1        | x      | x         | 由nBOOT0位决定           |
+| 0        | x      | 0         | System Memory（系统存储器） |
+| 0        | x      | 1         | 由nBOOT0位决定           |
+
 
 当nSWBOOT0=1时，物理BOOT0引脚被忽略，完全由nBOOT0位控制：
+
 - nBOOT0=1：从Flash启动（0x08000000）
 - nBOOT0=0：从System Memory启动（0x1FFF0000）
 
@@ -210,6 +217,7 @@ VDD ≥ VBOR(根据Option Bytes配置) → BOR释放
 ```
 
 **时序参数（STM32G4数据手册）：**
+
 - tRSTTEMPO：从电源稳定到复位释放的延迟，典型值4.5ms
 - VPOR：1.62V ~ 2.0V（取决于温度和电压范围）
 - VBOR：可配置为1.7V/2.0V/2.2V/2.5V
@@ -293,6 +301,7 @@ __Vectors       DCD     __initial_sp              ; Top of Stack (0x08000000)
 ```
 
 **关键点：**
+
 - `__initial_sp`：由链接器脚本计算，通常指向SRAM末尾（例如：0x20000000 + 128KB）
 - 每个DCD（Define Constant Data）占用4字节
 - 向量表必须对齐到向量表大小的倍数（STM32G4要求至少128字节对齐）
@@ -316,6 +325,7 @@ Reset_Handler   PROC
 ```
 
 **指令解析：**
+
 - `LDR R0, =SystemInit`：将SystemInit函数地址加载到R0寄存器
 - `BLX R0`：带链接的跳转（Branch with Link and Exchange），调用SystemInit并返回
 - `BX R0`：跳转到__main（不返回）
@@ -355,6 +365,7 @@ void SystemInit(void)
 **关键配置项详解：**
 
 1. **FPU使能（Floating Point Unit）：**
+
 ```c
 // CPACR: Coprocessor Access Control Register
 // 位[23:20]: CP10和CP11访问权限
@@ -363,7 +374,8 @@ void SystemInit(void)
 SCB->CPACR |= ((3UL << 20)|(3UL << 22));
 ```
 
-2. **VTOR配置（Vector Table Offset Register）：**
+1. **VTOR配置（Vector Table Offset Register）：**
+
 ```c
 // STM32G4允许向量表重定位（用于Bootloader场景）
 // 例如：Bootloader在0x08000000，App在0x08008000
@@ -640,12 +652,14 @@ void main(void) {
 
 #### 3.9.3 常见启动失败排查
 
-| 现象 | 可能原因 | 排查方法 |
-|------|----------|----------|
-| 上电无反应 | 1. VDD未达到VBOR阈值<br>2. 晶振未起振 | 1. 测量VDD电压<br>2. 示波器查看OSC_IN/OUT波形 |
-| 程序不运行 | 1. 向量表损坏<br>2. 栈指针错误 | 1. 读取0x08000000处4字节，应为0x2000xxxx<br>2. 读取0x08000004，应在Flash代码区 |
-| 调试器无法连接 | 1. RDP保护开启<br>2. SWD引脚被占用 | 1. CubeProgrammer中检查RDP级别<br>2. 从System Memory启动后擦除Flash |
-| Bootloader跳转失败 | 1. 未关闭外设和中断<br>2. VTOR未重定向 | 1. 在跳转前完全复位外设<br>2. App的SystemInit必须设置VTOR |
+
+| 现象             | 可能原因                     | 排查方法                                                        |
+| -------------- | ------------------------ | ----------------------------------------------------------- |
+| 上电无反应          | 1. VDD未达到VBOR阈值 2. 晶振未起振 | 1. 测量VDD电压 2. 示波器查看OSC_IN/OUT波形                             |
+| 程序不运行          | 1. 向量表损坏 2. 栈指针错误        | 1. 读取0x08000000处4字节，应为0x2000xxxx 2. 读取0x08000004，应在Flash代码区 |
+| 调试器无法连接        | 1. RDP保护开启 2. SWD引脚被占用   | 1. CubeProgrammer中检查RDP级别 2. 从System Memory启动后擦除Flash       |
+| Bootloader跳转失败 | 1. 未关闭外设和中断 2. VTOR未重定向  | 1. 在跳转前完全复位外设 2. App的SystemInit必须设置VTOR                     |
+
 
 ---
 
@@ -661,6 +675,7 @@ STM32的启动流程是一个精密设计的多层次系统：
 ```
 
 每一步都有明确的职责分工：
+
 - **硬件层（POR/BOR）**：确保电源稳定，提供可靠的复位信号
 - **BootROM**：读取配置，选择启动源，完成最初的跳转
 - **启动文件（startup.s）**：定义中断向量表，调用系统初始化
@@ -693,13 +708,12 @@ STM32的启动流程是一个精密设计的多层次系统：
 ---
 
 **参考资料：**
+
 - STM32G4系列参考手册（RM0440）
 - STM32G4系列数据手册
 - Cortex-M4技术参考手册（ARM DDI 0439）
 - AN2606: STM32微控制器系统存储器启动模式
 - AN4894: STM32微控制器中的EEPROM仿真
-
-
 
 感谢阅读，我们下篇见。
 

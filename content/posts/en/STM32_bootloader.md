@@ -641,11 +641,11 @@ void main(void) {
 #### 3.9.3 Common Boot Failure Troubleshooting
 
 | Symptom | Possible cause | Troubleshooting |
-|------|----------|----------|
-| No response on power-on | 1. VDD below VBOR threshold<br>2. Crystal not oscillating | 1. Measure VDD voltage<br>2. Oscilloscope on OSC_IN/OUT waveform |
-| Program does not run | 1. Vector table corrupted<br>2. Stack pointer wrong | 1. Read 4 bytes at 0x08000000, should be 0x2000xxxx<br>2. Read 0x08000004, should be in Flash code region |
-| Debugger cannot connect | 1. RDP protection enabled<br>2. SWD pins occupied | 1. Check RDP level in CubeProgrammer<br>2. Boot from System Memory then erase Flash |
-| Bootloader jump fails | 1. Peripherals/interrupts not shut down<br>2. VTOR not relocated | 1. Fully reset peripherals before jump<br>2. App's SystemInit must set VTOR |
+| -------------- | ------------------------ | ----------------------------------------------------------- |
+| No response on power-on | 1. VDD below VBOR threshold 2. Crystal not oscillating | 1. Measure VDD voltage 2. Oscilloscope on OSC_IN/OUT waveform |
+| Program does not run | 1. Vector table corrupted 2. Stack pointer wrong | 1. Read 4 bytes at 0x08000000, should be 0x2000xxxx 2. Read 0x08000004, should be in Flash code region |
+| Debugger cannot connect | 1. RDP protection enabled 2. SWD pins occupied | 1. Check RDP level in CubeProgrammer 2. Boot from System Memory then erase Flash |
+| Bootloader jump fails | 1. Peripherals/interrupts not shut down 2. VTOR not relocated | 1. Fully reset peripherals before jump 2. App's SystemInit must set VTOR |
 
 ---
 
