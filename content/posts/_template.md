@@ -21,6 +21,8 @@ tags: [Next.js, 示例]
 
 写完后运行 `npm run build`，文章会自动出现在博客列表。
 
+> **URL 路径**：文件名即 slug，请只用英文字母、数字、连字符与下划线（如 `STM32_CMake-workflow.md`）。中文或 `&` 等特殊字符会导致 GitHub Pages 静态导出 404。
+
 ---
 
 ## 英文版（可选）
