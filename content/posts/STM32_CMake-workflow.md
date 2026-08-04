@@ -46,9 +46,9 @@ openocd --version
 
 基础配置就不再做过多赘述，按如下图配置，并生成项目。
 
-![CMake_CubeMX (1)](https://assets.virongx.com/blog/posts/2026/STM32_CMake工作流/CMake_CubeMX (1).png)
+![CMake_CubeMX (1)](https://assets.virongx.com/blog/posts/2026/STM32_CMake工作流/CMake_CubeMX(1).png)
 
-![CMake_CubeMX (2)](https://assets.virongx.com/blog/posts/2026/STM32_CMake工作流/CMake_CubeMX (2).png)
+![CMake_CubeMX (2)](https://assets.virongx.com/blog/posts/2026/STM32_CMake工作流/CMake_CubeMX(2).png)
 
 ## 4 配置VSCode
 
@@ -284,7 +284,5 @@ openocd ^
 ```
 
 直接Terminal Run Task
-
-
 
 **本页面更新于: 2026年7月20日 23:45:35**

@@ -16,6 +16,7 @@ The first step is to configure the toolchain.
 [Visual Studio Code](https://code.visualstudio.com/): Microsoft’s lightweight code editor; with extensions it can match IDE-level workflows.
 
 Recommended extensions:
+
 - Cortex-Debug (VS Code debug)
 - CMake Tools
 - ARM Assembly (assembly syntax highlighting)
@@ -45,9 +46,9 @@ If all print versions, **PATH** is configured correctly.
 
 Basic MCU setup is omitted here—configure as shown below and generate the project.
 
-![CMake_CubeMX (1)](https://assets.virongx.com/blog/posts/2026/STM32_CMake工作流/CMake_CubeMX (1).png)
+![CMake_CubeMX (1)](https://assets.virongx.com/blog/posts/2026/STM32_CMake工作流/CMake_CubeMX(1).png)
 
-![CMake_CubeMX (2)](https://assets.virongx.com/blog/posts/2026/STM32_CMake工作流/CMake_CubeMX (2).png)
+![CMake_CubeMX (2)](https://assets.virongx.com/blog/posts/2026/STM32_CMake工作流/CMake_CubeMX(2).png)
 
 ## 4 Configure VS Code
 
@@ -281,7 +282,5 @@ openocd ^
 ```
 
 Then **Terminal → Run Task**.
-
-
 
 **Last updated: July 20, 2026 23:45:35**
