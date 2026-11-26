@@ -1060,6 +1060,4 @@ $$
 - **S1：SimpleFOC 官方文档，Coordinate Transformations in FOC。** [原文](https://docs.simplefoc.com/foc_theory)。用于核对坐标变换及图片背景；正文使用了其中 `frames.png`、`curr_frame.png`、`FOC_6_step_modulation.gif` 三张图。页面页脚声明 MIT license；单张图片未显示独立许可标识，保留归属与上游声明，不额外推定独立授权。
 - **S2：SimpleFOC 官方文档，Voltage Torque Control。** [原文](https://docs.simplefoc.com/voltage_torque_control)。用于对照电压控制、反电动势、电流闭环与前馈的关系。正文数值与推导不照搬该页面的库参数。
 
-原笔记中另有两张图片，因缺少可核实的原始出处与许可，本版未将它们作为正文配图使用。
-
 **本页面更新于: 2026年11月26日 00:20:35**

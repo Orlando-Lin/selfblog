@@ -1060,6 +1060,4 @@ The main text is reorganized, derived, and worked through under the notation use
 - **S1: SimpleFOC documentation, Coordinate Transformations in FOC.** [Original](https://docs.simplefoc.com/foc_theory). Used to check the coordinate transforms and the background of the images; this post uses three of its figures, `frames.png`, `curr_frame.png`, and `FOC_6_step_modulation.gif`. The page footer declares an MIT license; individual images carry no separate license mark, so attribution and the upstream notice are preserved without inferring a separate grant. Exact original image links and license records are kept in the notes file in the image directory.
 - **S2: SimpleFOC documentation, Voltage Torque Control.** [Original](https://docs.simplefoc.com/voltage_torque_control). Used to compare the relations among voltage control, back EMF, the current loop, and feedforward. The numbers and derivations in the text do not copy that page's library parameters.
 
-The two images from the original notes remain in the image directory. Because the original file provides no verifiable source or license for them, this version does not use them as evidence in the text or as additional figures. The original content is preserved in full in the backup file in the same directory.
-
 **Last updated: November 26, 2026 00:25:35**
