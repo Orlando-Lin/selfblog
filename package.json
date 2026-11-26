@@ -12,6 +12,7 @@
     "framer-motion": "^12.41.0",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
+    "katex": "^0.16.9",
     "lucide-react": "^1.21.0",
     "next": "16.2.9",
     "next-themes": "^0.4.6",
@@ -19,8 +20,10 @@
     "react-dom": "19.2.4",
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
+    "rehype-katex": "^7.0.1",
     "rehype-slug": "^6.0.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
